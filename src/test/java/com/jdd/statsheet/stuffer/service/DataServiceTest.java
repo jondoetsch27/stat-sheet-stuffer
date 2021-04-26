@@ -36,7 +36,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableConfigurationProperties
 public class DataServiceTest {
 
-  private static DataServiceMock dataServiceMock;
   private static DataService dataService;
 
   @Value("${nfl.api.key}")
@@ -44,7 +43,6 @@ public class DataServiceTest {
 
   @BeforeEach
   public void initalize() {
-    dataServiceMock = new DataServiceMock();
     dataService = new DataService();
   }
 
