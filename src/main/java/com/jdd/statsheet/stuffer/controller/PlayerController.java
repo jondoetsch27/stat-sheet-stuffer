@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,12 +15,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PlayerController {
 
-  @Autowired PlayerService playerService;
+  @Autowired
+  PlayerService playerService;
 
   Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
+  @GetMapping(path = "/players/read/")
+  public ResponseEntity<Player> readPlayer(@RequestParam String playerFirstName,
+      @RequestParam String playerLastName, @RequestParam String playerNumber) {
+    String playerName = playerFirstName + playerLastName;
+    String playerId = playerName + playerNumber;
+    Player player = null;
+    ResponseEntity<Player> playerResponseEntity = null;
+    logger.debug("Received GET request at /players/read for Player: " + playerName);
+
+    try {
+      player = playerService.readPlayer(playerId);
+      playerResponseEntity = new ResponseEntity<>(player, HttpStatus.FOUND);
+      logger.debug("Player Read Successful");
+    } catch (Exception exception) {
+      logger.error("Player Read Failed");
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return playerResponseEntity;
+  }
+
   @PostMapping(path = "/players/add/")
-  public ResponseEntity<Player> addPlayer(@RequestParam String playerFirstName, @RequestParam String playerLastName) {
+  public ResponseEntity<Player> addPlayer(@RequestParam String playerFirstName,
+      @RequestParam String playerLastName) {
     String playerName = playerFirstName + " " + playerLastName;
     Player player = null;
     ResponseEntity<Player> playerResponseEntity = null;
@@ -28,8 +51,9 @@ public class PlayerController {
     try {
       player = playerService.createPlayer(playerName);
       playerResponseEntity = new ResponseEntity<>(player, HttpStatus.CREATED);
-    } catch (RuntimeException runtimeException) {
-      logger.error("Player Creation Failed" + runtimeException);
+      logger.debug("Player Creation Successful");
+    } catch (Exception exception) {
+      logger.error("Player Creation Failed" + exception);
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

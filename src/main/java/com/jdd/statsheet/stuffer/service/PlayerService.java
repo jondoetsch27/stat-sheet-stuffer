@@ -5,6 +5,7 @@ import com.jdd.statsheet.stuffer.model.PlayerData;
 import com.jdd.statsheet.stuffer.model.TeamData;
 import com.jdd.statsheet.stuffer.repository.PlayerRepository;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class PlayerService {
       throw new RuntimeException("Player Not Found");
     }
 
-    for (LinkedHashMap playerMap : teamData.getTeamPlayers()) {
+    for (LinkedHashMap playerMap : Objects.requireNonNull(teamData.getTeamPlayers())) {
       if (playerMap.get(NAME_KEY).equals(playerName)) {
         player.setPlayerApiId((String) playerMap.get(ID_KEY));
         player.setPlayerNumber((String) playerMap.get(NUMBER_KEY));
@@ -76,4 +77,9 @@ public class PlayerService {
 
     return playerRepository.insert(player);
   }
+
+  public Player readPlayer(String playerId) {
+    return playerRepository.findById(playerId).get();
+  }
+
 }
