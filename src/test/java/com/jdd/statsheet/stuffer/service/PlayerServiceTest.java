@@ -7,13 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PlayerServiceTest {
 
-  @Autowired PlayerService playerService;
-  @Autowired DataService dataService;
+  @Autowired
+  PlayerService playerService;
+
+  @Autowired
+  DataService dataService;
 
 
   @Test
   public void createPlayerTest() {
-    System.out.println("test commit");
   }
 
 

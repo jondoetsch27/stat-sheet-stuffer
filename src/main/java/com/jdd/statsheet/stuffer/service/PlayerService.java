@@ -79,7 +79,11 @@ public class PlayerService {
   }
 
   public Player readPlayer(String playerId) {
-    return playerRepository.findById(playerId).get();
+    try {
+      return playerRepository.findById(playerId).get();
+    } catch (Exception exception) {
+      throw new RuntimeException(exception);
+    }
   }
 
 }

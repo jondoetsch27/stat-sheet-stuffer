@@ -116,7 +116,8 @@ public class DataServiceTest {
     LinkedHashMap playerDataMap =
         restTemplate
             .exchange(
-                (SPORTS_RADAR_URL + PLAYERS_URL + MATTHEW_STAFFORD_API_ID + PROFILE_URL + API_KEY_URL + NFL_API_KEY),
+                (SPORTS_RADAR_URL + PLAYERS_URL + MATTHEW_STAFFORD_API_ID + PROFILE_URL
+                    + API_KEY_URL + NFL_API_KEY),
                 HttpMethod.GET,
                 httpEntity,
                 LinkedHashMap.class)

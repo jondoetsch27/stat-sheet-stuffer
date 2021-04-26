@@ -40,7 +40,8 @@ public class DataService {
   //  @Value("${nfl.api.key}")
   private String nflApiKey = "g9dssek87drzge36dt5edn8d";
 
-  public DataService() {}
+  public DataService() {
+  }
 
   public DataService(String nflApiKey) {
     this.nflApiKey = nflApiKey;
@@ -95,7 +96,8 @@ public class DataService {
     }
   }
 
-  @Async public Future<PlayerData> retrievePlayerData(String playerApiId) {
+  @Async
+  public Future<PlayerData> retrievePlayerData(String playerApiId) {
 
     try {
       Thread.sleep(1000);
@@ -111,7 +113,8 @@ public class DataService {
     LinkedHashMap playerDataMap =
         restTemplate
             .exchange(
-                (SPORTS_RADAR_URL + PLAYERS_URL + playerApiId + PROFILE_URL + API_KEY_URL + nflApiKey),
+                (SPORTS_RADAR_URL + PLAYERS_URL + playerApiId + PROFILE_URL + API_KEY_URL
+                    + nflApiKey),
                 HttpMethod.GET,
                 httpEntity,
                 LinkedHashMap.class)
