@@ -38,7 +38,7 @@ public class DataService {
   private final RestTemplate restTemplate = new RestTemplate();
 
   //  @Value("${nfl.api.key}")
-  private String nflApiKey = "7ye3uffbey6t87mc29h3b5xa";
+  private String nflApiKey = "g9dssek87drzge36dt5edn8d";
 
   public DataService() {}
 

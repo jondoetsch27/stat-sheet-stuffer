@@ -16,7 +16,7 @@ public class TestConstants {
   public static final String NAME_KEY = "name";
   public static final String ID_KEY = "id";
   public static final String NUMBER_KEY = "jersey";
-  public static final String NFL_API_KEY = "7ye3uffbey6t87mc29h3b5xa";
+  public static final String NFL_API_KEY = "g9dssek87drzge36dt5edn8d";
   public static final String MATTHEW_STAFFORD_API_ID = "ade43b1a-0601-4672-83b6-d246bc066a19";
   public static final LinkedHashMap<String, String> teamApiIdHashMap = new LinkedHashMap<String, String>();
 
