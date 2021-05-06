@@ -9,10 +9,14 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlayerService {
+
+  @Value("${nfl.api.key}")
+  private String nflApiKey;
 
   private DataService dataService;
   private LinkedHashMap<String, String> teamApiIds;
@@ -40,7 +44,7 @@ public class PlayerService {
 
     for (String teamName : teamApiIds.keySet()) {
       teamApiId = teamApiIds.get(teamName);
-      teamDataFuture = dataService.retrieveTeamData(playerName, teamApiId);
+      teamDataFuture = dataService.retrieveTeamData(playerName, teamApiId, nflApiKey);
       if (teamDataFuture != null) {
         try {
           teamData = teamDataFuture.get();
@@ -67,7 +71,7 @@ public class PlayerService {
       }
     }
 
-    playerDataFuture = dataService.retrievePlayerData(player.getPlayerApiId());
+    playerDataFuture = dataService.retrievePlayerData(player.getPlayerApiId(), nflApiKey);
 
     try {
       player.setPlayerData(playerDataFuture.get());

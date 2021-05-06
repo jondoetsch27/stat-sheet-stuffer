@@ -54,7 +54,7 @@ public class DataServiceTest {
   @Test
   public void retrieveTeamDataTest() throws Exception {
     TeamData teamData =
-        dataService.retrieveTeamData("Dalvin Cook", "33405046-04ee-4058-a950-d606f8c30852").get();
+        dataService.retrieveTeamData("Dalvin Cook", "33405046-04ee-4058-a950-d606f8c30852", nflApiKey).get();
     System.out.println(teamData.getTeamName() + " " + teamData.getTeamId());
   }
 
@@ -64,7 +64,7 @@ public class DataServiceTest {
     TeamData teamData = null;
     for (String teamName : teamApiIdHashMap.keySet()) {
       String teamApiId = teamApiIdHashMap.get(teamName);
-      teamDataFuture = dataService.retrieveTeamData("Dalvin Cook", teamApiId);
+      teamDataFuture = dataService.retrieveTeamData("Dalvin Cook", teamApiId, nflApiKey);
       if (teamDataFuture != null) {
         teamData = teamDataFuture.get();
         break;

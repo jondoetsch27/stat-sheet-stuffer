@@ -37,18 +37,8 @@ public class DataService {
 
   private final RestTemplate restTemplate = new RestTemplate();
 
-  //  @Value("${nfl.api.key}")
-  private String nflApiKey = "g9dssek87drzge36dt5edn8d";
-
-  public DataService() {
-  }
-
-  public DataService(String nflApiKey) {
-    this.nflApiKey = nflApiKey;
-  }
-
   @Async
-  public Future<TeamData> retrieveTeamData(String playerName, String teamId) {
+  public Future<TeamData> retrieveTeamData(String playerName, String teamId, String nflApiKey) {
 
     try {
       Thread.sleep(1000);
@@ -97,7 +87,7 @@ public class DataService {
   }
 
   @Async
-  public Future<PlayerData> retrievePlayerData(String playerApiId) {
+  public Future<PlayerData> retrievePlayerData(String playerApiId, String nflApiKey) {
 
     try {
       Thread.sleep(1000);
