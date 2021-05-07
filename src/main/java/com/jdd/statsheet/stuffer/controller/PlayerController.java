@@ -71,7 +71,7 @@ public class PlayerController {
 
     try {
       newPlayer = playerService.updatePlayer(player);
-      playerResponseEntity = new ResponseEntity<>(player, HttpStatus.ACCEPTED);
+      playerResponseEntity = new ResponseEntity<>(newPlayer, HttpStatus.ACCEPTED);
       logger.debug("Player Update Successful");
     } catch (Exception exception) {
       logger.error("Player Update Failed" + exception);
