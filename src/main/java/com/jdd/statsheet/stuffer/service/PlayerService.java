@@ -90,4 +90,17 @@ public class PlayerService {
     }
   }
 
+  public Player updatePlayer(Player player) {
+    Player newPlayer = playerRepository.findById(player.getPlayerId()).get();
+    newPlayer.setPlayerName(player.getPlayerName());
+    newPlayer.setPlayerNumber(player.getPlayerNumber());
+    newPlayer.setPlayerId(player.getPlayerId());
+    playerRepository.deleteById(player.getPlayerId());
+    return playerRepository.insert(newPlayer);
+  }
+
+  public void deletePlayer(String playerId) {
+    playerRepository.deleteById(playerId);
+  }
+
 }
