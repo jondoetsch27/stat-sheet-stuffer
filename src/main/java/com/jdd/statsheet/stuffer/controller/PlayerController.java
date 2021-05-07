@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +56,24 @@ public class PlayerController {
       logger.debug("Player Creation Successful");
     } catch (Exception exception) {
       logger.error("Player Creation Failed" + exception);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return playerResponseEntity;
+  }
+
+  @PutMapping(path = "/players/update")
+  public ResponseEntity<Player> updatePlayer(@RequestBody Player player) {
+    ResponseEntity<Player> playerResponseEntity = null;
+    Player newPlayer = null;
+    logger.debug("Received PUT request at /players/update for Player: " + player.getPlayerName());
+
+    try {
+      newPlayer = playerService.updatePlayer(player);
+      playerResponseEntity = new ResponseEntity<>(player, HttpStatus.ACCEPTED);
+      logger.debug("Player Update Successful");
+    } catch (Exception exception) {
+      logger.error("Player Update Failed" + exception);
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
