@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,6 +75,26 @@ public class PlayerController {
       logger.debug("Player Update Successful");
     } catch (Exception exception) {
       logger.error("Player Update Failed" + exception);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return playerResponseEntity;
+  }
+
+  @DeleteMapping(path = "/players/delete")
+  public ResponseEntity deletePlayer(@RequestParam String playerFirstName,
+      @RequestParam String playerLastName, @RequestParam String playerNumber) {
+    String playerName = playerFirstName + playerLastName;
+    String playerId = playerName + playerNumber;
+    ResponseEntity<Player> playerResponseEntity = null;
+    logger.debug("Received DELETE request  at /players/delete for Player: " + playerName);
+
+    try {
+      playerService.deletePlayer(playerId);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.GONE);
+      logger.debug("Player Deletion Successful");
+    } catch (Exception exception) {
+      logger.error("Player Deletion Failed");
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
