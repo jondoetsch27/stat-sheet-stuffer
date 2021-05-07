@@ -18,9 +18,9 @@ public class PlayerService {
   @Value("${nfl.api.key}")
   private String nflApiKey;
 
-  private DataService dataService;
-  private LinkedHashMap<String, String> teamApiIds;
-  private PlayerRepository playerRepository;
+  private final DataService dataService;
+  private final LinkedHashMap<String, String> teamApiIds;
+  private final PlayerRepository playerRepository;
 
   private static final String NUMBER_KEY = "jersey";
   private static final String NAME_KEY = "name";
