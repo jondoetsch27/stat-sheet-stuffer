@@ -92,11 +92,11 @@ public class PlayerController {
   }
 
   @DeleteMapping(path = "/players/delete")
-  public ResponseEntity deletePlayer(@RequestParam String playerFirstName,
+  public ResponseEntity<HttpStatus> deletePlayer(@RequestParam String playerFirstName,
       @RequestParam String playerLastName, @RequestParam String playerNumber) {
     String playerName = playerFirstName + playerLastName;
     String playerId = playerName + playerNumber;
-    ResponseEntity<Player> playerResponseEntity = null;
+    ResponseEntity<HttpStatus> playerResponseEntity = null;
     logger.debug("Received DELETE request  at /players/delete for Player: " + playerName);
 
     try {
