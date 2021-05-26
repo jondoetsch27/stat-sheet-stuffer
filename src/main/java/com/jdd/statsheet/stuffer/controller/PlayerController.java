@@ -1,5 +1,6 @@
 package com.jdd.statsheet.stuffer.controller;
 
+import com.jdd.statsheet.stuffer.exception.PlayerNotFoundException;
 import com.jdd.statsheet.stuffer.model.Player;
 import com.jdd.statsheet.stuffer.service.PlayerService;
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ public class PlayerController {
       player = playerService.readPlayer(playerId);
       playerResponseEntity = new ResponseEntity<>(player, HttpStatus.FOUND);
       logger.debug("Player Read Successful");
+    } catch (PlayerNotFoundException playerNotFoundException) {
+      logger.error("Player Not Found");
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception exception) {
       logger.error("Player Read Failed");
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,6 +59,9 @@ public class PlayerController {
       player = playerService.createPlayer(playerName);
       playerResponseEntity = new ResponseEntity<>(player, HttpStatus.CREATED);
       logger.debug("Player Creation Successful");
+    } catch (PlayerNotFoundException playerNotFoundException) {
+      logger.error("Player Not Found");
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception exception) {
       logger.error("Player Creation Failed" + exception);
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,6 +80,9 @@ public class PlayerController {
       newPlayer = playerService.updatePlayer(player);
       playerResponseEntity = new ResponseEntity<>(newPlayer, HttpStatus.ACCEPTED);
       logger.debug("Player Update Successful");
+    } catch (PlayerNotFoundException playerNotFoundException) {
+      logger.error("Player Not Found");
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception exception) {
       logger.error("Player Update Failed" + exception);
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -93,6 +103,9 @@ public class PlayerController {
       playerService.deletePlayer(playerId);
       playerResponseEntity = new ResponseEntity<>(HttpStatus.GONE);
       logger.debug("Player Deletion Successful");
+    } catch (PlayerNotFoundException playerNotFoundException) {
+      logger.error("Player Not Found");
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception exception) {
       logger.error("Player Deletion Failed");
       playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

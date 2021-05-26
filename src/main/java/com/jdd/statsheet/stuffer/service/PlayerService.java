@@ -1,5 +1,6 @@
 package com.jdd.statsheet.stuffer.service;
 
+import com.jdd.statsheet.stuffer.exception.PlayerNotFoundException;
 import com.jdd.statsheet.stuffer.model.Player;
 import com.jdd.statsheet.stuffer.model.PlayerData;
 import com.jdd.statsheet.stuffer.model.TeamData;
@@ -58,7 +59,7 @@ public class PlayerService {
     }
 
     if (teamData == null) {
-      throw new RuntimeException("Player Not Found");
+      throw new PlayerNotFoundException();
     }
 
     for (LinkedHashMap playerMap : Objects.requireNonNull(teamData.getTeamPlayers())) {
@@ -84,14 +85,22 @@ public class PlayerService {
 
   public Player readPlayer(String playerId) {
     try {
-      return playerRepository.findById(playerId).get();
+      if (playerRepository.findById(playerId).isPresent()) {
+        return playerRepository.findById(playerId).get();
+      }
     } catch (Exception exception) {
       throw new RuntimeException(exception);
     }
+    throw new PlayerNotFoundException();
   }
 
   public Player updatePlayer(Player player) {
-    Player newPlayer = playerRepository.findById(player.getPlayerId()).get();
+    Player newPlayer;
+    if (playerRepository.findById(player.getPlayerId()).isPresent()) {
+      newPlayer = playerRepository.findById(player.getPlayerId()).get();
+    } else {
+      throw new PlayerNotFoundException();
+    }
     newPlayer.setPlayerName(player.getPlayerName());
     newPlayer.setPlayerNumber(player.getPlayerNumber());
     newPlayer.setPlayerId(player.getPlayerId());
@@ -100,7 +109,11 @@ public class PlayerService {
   }
 
   public void deletePlayer(String playerId) {
-    playerRepository.deleteById(playerId);
+    if (playerRepository.findById(playerId).isPresent()) {
+      playerRepository.deleteById(playerId);
+    } else {
+      throw new PlayerNotFoundException();
+    }
   }
 
 }
