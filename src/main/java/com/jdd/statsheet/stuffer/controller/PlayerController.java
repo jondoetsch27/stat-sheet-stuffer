@@ -27,8 +27,8 @@ public class PlayerController {
   @GetMapping(path = "/players/read/")
   public ResponseEntity<Player> readPlayer(@RequestParam String playerFirstName,
       @RequestParam String playerLastName, @RequestParam String playerNumber) {
-    String playerName = playerFirstName + playerLastName;
-    String playerId = playerName + playerNumber;
+    String playerName = playerFirstName + " " + playerLastName;
+    String playerId = playerName + " " + playerNumber;
     Player player = null;
     ResponseEntity<Player> playerResponseEntity = null;
     logger.debug("Received GET request at /players/read for Player: " + playerName);
@@ -92,16 +92,17 @@ public class PlayerController {
   }
 
   @DeleteMapping(path = "/players/delete")
-  public ResponseEntity<HttpStatus> deletePlayer(@RequestParam String playerFirstName,
+  public ResponseEntity<Player> deletePlayer(@RequestParam String playerFirstName,
       @RequestParam String playerLastName, @RequestParam String playerNumber) {
     String playerName = playerFirstName + playerLastName;
     String playerId = playerName + playerNumber;
-    ResponseEntity<HttpStatus> playerResponseEntity = null;
+    Player deletedPlayer;
+    ResponseEntity<Player> playerResponseEntity = null;
     logger.debug("Received DELETE request  at /players/delete for Player: " + playerName);
 
     try {
-      playerService.deletePlayer(playerId);
-      playerResponseEntity = new ResponseEntity<>(HttpStatus.GONE);
+      deletedPlayer = playerService.deletePlayer(playerId);
+      playerResponseEntity = new ResponseEntity<>(deletedPlayer, HttpStatus.GONE);
       logger.debug("Player Deletion Successful");
     } catch (PlayerNotFoundException playerNotFoundException) {
       logger.error("Player Not Found");

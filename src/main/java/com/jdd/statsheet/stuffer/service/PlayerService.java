@@ -108,12 +108,13 @@ public class PlayerService {
     return playerRepository.insert(newPlayer);
   }
 
-  public void deletePlayer(String playerId) {
+  public Player deletePlayer(String playerId) {
     if (playerRepository.findById(playerId).isPresent()) {
       playerRepository.deleteById(playerId);
     } else {
       throw new PlayerNotFoundException();
     }
+    return new Player(playerId);
   }
 
 }
