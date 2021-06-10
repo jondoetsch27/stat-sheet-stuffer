@@ -3,7 +3,6 @@ package com.jdd.statsheet.stuffer.service;
 import static com.jdd.statsheet.stuffer.TestConstants.API_KEY_URL;
 import static com.jdd.statsheet.stuffer.TestConstants.MATTHEW_STAFFORD_API_ID;
 import static com.jdd.statsheet.stuffer.TestConstants.NAME_KEY;
-import static com.jdd.statsheet.stuffer.TestConstants.NFL_API_KEY;
 import static com.jdd.statsheet.stuffer.TestConstants.PLAYERS_URL;
 import static com.jdd.statsheet.stuffer.TestConstants.PROFILE_URL;
 import static com.jdd.statsheet.stuffer.TestConstants.ROSTER_URL;
@@ -47,14 +46,9 @@ public class DataServiceTest {
   }
 
   @Test
-  public void testValueInjection() {
-    System.out.println(nflApiKey);
-  }
-
-  @Test
   public void retrieveTeamDataTest() throws Exception {
     TeamData teamData =
-        dataService.retrieveTeamData("Dalvin Cook", "33405046-04ee-4058-a950-d606f8c30852").get();
+        dataService.retrieveTeamData("Dalvin Cook", "33405046-04ee-4058-a950-d606f8c30852", nflApiKey).get();
     System.out.println(teamData.getTeamName() + " " + teamData.getTeamId());
   }
 
@@ -64,7 +58,7 @@ public class DataServiceTest {
     TeamData teamData = null;
     for (String teamName : teamApiIdHashMap.keySet()) {
       String teamApiId = teamApiIdHashMap.get(teamName);
-      teamDataFuture = dataService.retrieveTeamData("Dalvin Cook", teamApiId);
+      teamDataFuture = dataService.retrieveTeamData("Dalvin Cook", teamApiId, nflApiKey);
       if (teamDataFuture != null) {
         teamData = teamDataFuture.get();
         break;
@@ -85,7 +79,7 @@ public class DataServiceTest {
     LinkedHashMap teamDataMap =
         restTemplate
             .exchange(
-                (SPORTS_RADAR_URL + TEAMS_URL + teamId + ROSTER_URL + API_KEY_URL + NFL_API_KEY),
+                (SPORTS_RADAR_URL + TEAMS_URL + teamId + ROSTER_URL + API_KEY_URL + nflApiKey),
                 HttpMethod.GET,
                 httpEntity,
                 LinkedHashMap.class)
@@ -117,7 +111,7 @@ public class DataServiceTest {
         restTemplate
             .exchange(
                 (SPORTS_RADAR_URL + PLAYERS_URL + MATTHEW_STAFFORD_API_ID + PROFILE_URL
-                    + API_KEY_URL + NFL_API_KEY),
+                    + API_KEY_URL + nflApiKey),
                 HttpMethod.GET,
                 httpEntity,
                 LinkedHashMap.class)
